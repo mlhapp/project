@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-Vue.use(Router)
-
 import Recomment from '@/views/Recomment'
 import Overseas from '@/views/Overseas'
 import Woman from '@/views/Woman'
@@ -12,6 +10,7 @@ import Household from '@/views/Household'
 import Baby from '@/views/Baby'
 import Comesoon from '@/views/Comesoon'
 
+Vue.use(Router)
 
 export default new Router({
   mode: 'history',
@@ -49,5 +48,9 @@ export default new Router({
       path: '/comesoon',
       component: Comesoon
     },
+    {
+      path: '/',
+      component: Recomment
+    }
   ]
 })

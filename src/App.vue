@@ -1,35 +1,59 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/recomment">推荐</router-link> |
-      <router-link to="/overseas">海外</router-link>
-      <router-link to="/woman">女士</router-link>
-      <router-link to="/man">男士</router-link>
-      <router-link to="/makeup">美妆</router-link>
-      <router-link to="/household">家居</router-link>
-      <router-link to="/baby">婴童</router-link>
-      <router-link to="/comesoon">即将上新</router-link>
-    </div>
-    <router-view/>
+  <div>
+    <headerbar ref="myheader"></headerbar>
+    <navbar ref="mycolor"></navbar>
+    <router-view></router-view>
+    <footerbar></footerbar>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import navbar from '@/components/Navbar'
+import footerbar from '@/components/Footerbar'
+import headerbar from '@/components/Headerbar'
+export default {
+  data () {
+    return {}
+  },
+  components: {
+    navbar,
+    footerbar,
+    headerbar
+  },
+  mounted () {
+    window.onscroll = this.handlescoll
+  },
+  methods: {
+    handlescoll () {
+      console.log(this.$refs.myheader.$el)
+      if (
+        document.documentElement.scrollTop > 0
+      ) {
+        this.$refs.myheader.$el.style.background = 'white'
+        this.$refs.mycolor.$el.style.background = 'white'
+        this.$refs.myheader.$el.style.color = 'black'
+        this.$refs.mycolor.$el.style.color = 'black'
+      } else {
+        this.$refs.myheader.$el.style.background = null
+        this.$refs.myheader.$el.style.color = 'white'
+        this.$refs.mycolor.$el.style.background = null
+        this.$refs.mycolor.$el.style.color = 'white'
+      }
     }
+  }
+  // beforeDestroy() {
+  //   window.onscroll = null;
+  // }
+}
+</script>
+
+<style lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+  div {
+    height: 100%;
+    font-size: 0.32rem;
   }
 }
 </style>

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!-- <meta id="viewport" name="viewport" content="width=devicewidth,initialscale=1,user-scalable=no"/> -->
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>app</title>
   </head>
@@ -13,5 +14,21 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script>
+      fnResize()
+      window.onresize = function () {
+      fnResize()
+      }
+      function fnResize() {
+      var deviceWidth = document.documentElement.clientWidth || window.innerWidth
+      if (deviceWidth >= 750) {
+      deviceWidth = 750
+      }
+      if (deviceWidth <= 320) {
+      deviceWidth = 320
+      }
+      document.documentElement.style.fontSize = (deviceWidth /750 * 100) + 'px'
+      }
+      </script>
   </body>
 </html>

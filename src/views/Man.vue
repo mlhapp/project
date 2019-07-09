@@ -75,7 +75,7 @@ export default {
 <style lang="scss" scoped>
 .banner {
   width: 100%;
-  height: 9.2rem;
+  height: 9rem;
   position: relative;
   margin-bottom: 0.4rem;
   section {
@@ -83,7 +83,7 @@ export default {
     left: 0;
     width: 100%;
     height: 3rem;
-    top: 6rem;
+    top: 6.3rem;
     color: black;
     h3 {
       width: 100%;
@@ -129,11 +129,12 @@ export default {
         font-size: 0.28rem;
         text-align: left;
         line-height: 0.4rem;
-        font-size: 0.32rem;
+        font-size: 0.28rem;
         text-indent: .1rem;
       }
       p:nth-of-type(1) {
         padding-top: 0.7rem;
+        font-size: 0.32rem;
       }
     }
   }

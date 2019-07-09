@@ -18,8 +18,8 @@
                 <div class="info">
                     <span>{{da.siloCategory}}直发</span>
                     <p>{{da.englishName}}</p>
-                    <p>{{da.chineseName}}</p>
-                    <p>{{da.discountText}}</p>
+                    <p class="p1">{{da.chineseName}}</p>
+                    <p class="p1">{{da.discountText}}</p>
                 </div>
             </div>
         </section>
@@ -72,7 +72,7 @@ export default {
 <style lang="scss" scoped>
 .banner{
     width: 100%;
-    height: 9.2rem;
+    height: 9rem;
     position: relative;
     margin-bottom: 0.40rem;
         section{
@@ -80,7 +80,7 @@ export default {
             left: 0;
             width: 100%;
             height: 3.00rem;
-            top: 6.00rem;
+            top: 6.3rem;
             color: black;
             h3{
                 width: 100%;
@@ -131,6 +131,9 @@ export default {
                 line-height: 0.40rem;
                 font-size: 0.32rem;
                 text-indent: .1rem;
+            }
+            .p1{
+              font-size: 0.28rem;
             }
         }
 }

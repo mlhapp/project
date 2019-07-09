@@ -15,16 +15,10 @@
 
 <script>
 export default {
-  data () {
-    return {}
-  },
-  mounted () {
-  },
-
-  methods: {
-
+  data() {
+    return {};
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 div {
@@ -32,23 +26,31 @@ div {
   width: 100%;
   height: 0.96rem;
   margin: 0 auto;
-  padding-left: 0.2rem;
+  // padding-left: 0.2rem;
   box-sizing: border-box;
   font-size: 0.28rem;
   position: fixed;
   z-index: 2;
   margin-top: 0.96rem;
-  color: #fff;
+  color: white;
   ul {
     list-style: none;
     overflow: hidden;
     overflow-x: auto;
     white-space: nowrap;
-    line-height: 0.96rem;
+    height: 0.86rem;
+    line-height: 0.86rem;
   }
   li {
-    width: 1rem;
+    width: .95rem;
     display: inline-block;
+    height: 0.86rem;
+    text-align: center;
+  }
+  li:nth-of-type(8) {
+    width: 1.5rem;
   }
 }
 </style>
+
+

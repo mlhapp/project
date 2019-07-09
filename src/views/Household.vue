@@ -1,33 +1,20 @@
 <template>
   <div>
-    <!-- <div class="banner" v-for="data in bannerlist" :key="data.id">
-                <img :src="data.main_image"/>
-                <section>
-                    <h3>{{data.main_title}}1111</h3>
-                    <p>{{data.sub_title}}</p>
-                    <p>{{data.description}}</p>
-                </section>
-    </div>-->
-    <mt-swipe :auto="3000">
-      <div class="banner" v-for="data in bannerlist" :key="data.id">
-        <mt-swipe-item>
-          <img :src="data.main_image" />
-          <section>
-            <h3>{{data.main_title}}1111</h3>
-            <p>{{data.sub_title}}</p>
-            <p>{{data.description}}</p>
-          </section>
-        </mt-swipe-item>
-        <mt-swipe-item class="banner" v-for="data in bannerlist" :key="data.id">
-          <img :src="data.main_image" />
-          <section>
-            <h3>{{data.main_title}}1111</h3>
-            <p>{{data.sub_title}}</p>
-            <p>{{data.description}}</p>
-          </section>
-        </mt-swipe-item>
-      </div>
-    </mt-swipe>
+    <swiper :key="bannerlist.length" class="swiper">
+      <li v-for="data in bannerlist" :key="data.id" class="swiper-slide">
+        <img :src="data.main_image" />
+        <div class="swiperchil">
+          <h3>{{data.main_title}}</h3>
+          <p>{{data.sub_title}}</p>
+          <p>{{data.description}}</p>
+        </div>
+      </li>
+    </swiper>
+    <div>
+      <a href>
+        <img :src="imgsrc" alt class="img1" />
+      </a>
+    </div>
     <section
       id="loadbox"
       v-infinite-scroll="loadMore"
@@ -47,80 +34,95 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from "axios";
+import swiper from "@/components/Swiper";
 export default {
-  data () {
+  data() {
     return {
       datalist: [],
       loading: false,
       current: 1,
-      bannerlist: []
-    }
+      bannerlist: [],
+      imgsrc: ""
+    };
   },
-  mounted () {
+  mounted() {
     axios({
       url:
-        'http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000004&platform_code=PLATEFORM_H5'
+        "http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000004&platform_code=PLATEFORM_H5"
     }).then(res => {
-      this.bannerlist.push(res.data.banners[0])
-      this.bannerlist.push(res.data.banners[1])
-
-      // console.log(this.bannerlist);
-    })
-
+      this.bannerlist = res.data.banners;
+    });
+    axios(
+      "http://www.mei.com/appapi/cms/cmsDetail/v3?silo=2013000100000000004&ids=2121000100000000291&timestamp=1562632079435&summary=b1aaa8b059a2fbdcf71f72719ec6c039&platform_code=H5"
+    ).then(res => {
+      this.imgsrc = res.data.resultList[0].data[0].imageUrl;
+    });
     axios({
       url:
-        'http://www.mei.com/appapi/silo/eventForH5?categoryId=lifestyle&pageIndex=1&timestamp=1562399132063&summary=947fcd93bba0f031c9ad568d2385a5c7&platform_code=H5'
+        "http://www.mei.com/appapi/silo/eventForH5?categoryId=lifestyle&pageIndex=1&timestamp=1562399132063&summary=947fcd93bba0f031c9ad568d2385a5c7&platform_code=H5"
     }).then(item => {
-      console.log(item.data.eventList)
-      this.datalist = item.data.eventList
-      this.totalPages = item.data.totalPages
-    })
+      console.log(item.data.eventList);
+      this.datalist = item.data.eventList;
+      this.totalPages = item.data.totalPages;
+    });
   },
   methods: {
-    loadMore () {
-      this.loading = true
-      this.current++
+    loadMore() {
+      this.loading = true;
+      this.current++;
       if (this.current === this.totalPages) {
-        return
+        return;
       }
       axios({
         url: `http://www.mei.com/appapi/silo/eventForH5?categoryId=lifestyle&pageIndex=${this.current}&timestamp=1562399132063&summary=947fcd93bba0f031c9ad568d2385a5c7&platform_code=H5`
       }).then(item => {
-        this.datalist = [...this.datalist, ...item.data.eventList]
-        this.loading = false
-      })
+        this.datalist = [...this.datalist, ...item.data.eventList];
+        this.loading = false;
+      });
     }
+  },
+  components: {
+    swiper
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-.banner {
-  width: 100%;
-  height: 9.2rem;
+.swiper {
+  height: 9rem;
+  list-style: none;
   position: relative;
-  margin-bottom: 0.4rem;
-  section {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 3rem;
-    top: 6rem;
-    color: black;
-    h3 {
+    .swiperchil {
+      position: absolute;
+      left: 0;
       width: 100%;
-      text-align: center;
+      height: 2rem;
+      top: 6.3rem;
+      color: black;
+      h3 {
+        width: 100%;
+        text-align: center;
+        color: #fff;
+        font-size: 0.52rem;
+        margin: 0 0 0.06rem;
+      }
+      p {
+        width: 100%;
+        text-align: center;
+        font-size: 0.28rem;
+        color: #fff;
+      }
     }
-    p {
+    img {
       width: 100%;
-      text-align: center;
+      display: block;
     }
   }
-  img {
-    width: 100%;
-    height: 100%;
-  }
+.img1 {
+  width: 100%;
+  display: block;
 }
+
 #loadbox {
   width: 100%;
   #myload {
@@ -148,10 +150,12 @@ export default {
         font-size: 0.28rem;
         text-align: left;
         line-height: 0.4rem;
-        font-size: 0.32rem;
+        font-size: 0.28rem;
+        text-indent: 0.1rem;
       }
       p:nth-of-type(1) {
         padding-top: 0.6rem;
+        font-size: 0.32rem;
       }
     }
   }

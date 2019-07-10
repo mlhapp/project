@@ -9,7 +9,7 @@
       <p>{{data.tips}}</p>
     </div>
     <section id="loadbox">
-      <div v-for="da in datalist" :key="da.categoryId" id="myload">
+      <div v-for="da in datalist" :key="da.categoryId" id="myload" @click="detail(da.categoryId)">
         <img :src="da.imageTmallUrl" />
         <div class="info">
           <p>{{da.englishName}}</p>
@@ -22,28 +22,33 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import axios from 'axios'
 export default {
-  data() {
+  data () {
     return {
       datalist: [],
       data: []
-    };
+    }
   },
-  mounted() {
+  mounted () {
     axios({
       url:
-        "http://www.mei.com/appapi/upcoming/index/v3?platform_code=H5&timestamp=1562637782913&summary=f7a42d4f0a62fa42ad12ae198f8a2d4d"
+        'http://www.mei.com/appapi/upcoming/index/v3?platform_code=H5&timestamp=1562637782913&summary=f7a42d4f0a62fa42ad12ae198f8a2d4d'
     }).then(res => {
-      console.log(res.data);
-      this.datalist = res.data.lists[0].events;
-      this.data = res.data;
-    });
+      console.log(res.data)
+      this.datalist = res.data.lists[0].events
+      this.data = res.data
+    })
     if ((document.documentElement.scrollTop = 0)) {
-      document.documentElement.scrollTop = 1;
+      document.documentElement.scrollTop = 1
+    }
+  },
+  methods: {
+    detail (id) {
+      this.$router.push(`/productlist/${id}`)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .nullbox {
@@ -113,6 +118,3 @@ export default {
   }
 }
 </style>
-
-
-

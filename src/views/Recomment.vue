@@ -10,12 +10,12 @@
             </div>
       </li>
     </swiper>
-        <div class="newlist">        
+        <div class="newlist">
                 <aside>
                 <div class="title">
                 <h5>每日新品
                     <span>09:00上新</span>
-                </h5>  
+                </h5>
                 </div>
                 <div v-for="data in hotlist" :key="data.id" class="commod">
                     <img :src="data.picUrl">
@@ -34,7 +34,7 @@
         </div>
         <div id="loadbox">
             <h3>今日上新</h3>
-            <div v-for="da in list" :key="da.eventId" class="myload">
+            <div v-for="da in list" :key="da.eventId" class="myload" @click="detail(da.eventId)">
                 <img :src="da.imageUrl"/>
                 <div class="info">
                     <p>{{da.englishName}}</p>
@@ -56,53 +56,57 @@
 </template>
 
 <script>
-import Swiper from "swiper";
-import swiper from "@/components/Swiper";
-import axios from "axios";
-import Vue from "vue";
+import Swiper from 'swiper'
+import swiper from '@/components/Swiper'
+import axios from 'axios'
+import Vue from 'vue'
 export default {
   components: {
     swiper
   },
-  data() {
+  data () {
     return {
       datalist: [],
-      list:[],
-      dalist:[],
-      hotlist:[],
-      shoulist:[]
-    };
+      list: [],
+      dalist: [],
+      hotlist: [],
+      shoulist: []
+    }
   },
-  mounted() {
+  mounted () {
     axios
       .get(
-        "http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5"
+        'http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000008&platform_code=PLATEFORM_H5'
       )
       .then(res => {
-        this.datalist = res.data.banners;
+        this.datalist = res.data.banners
         // console.log(this.datalist);
-      });
+      })
 
-      axios
+    axios
       .get(
-        "http://www.mei.com/appapi/ninenew/operational/v1?credential="
+        'http://www.mei.com/appapi/ninenew/operational/v1?credential='
       )
       .then(res => {
-        console.log(res.data.show2[0].products);
+        console.log(res.data.show2[0].products)
         this.hotlist = res.data.show2[0].products
         this.shoulist = res.data.show2[1].products
-      });
+      })
 
-      axios({
+    axios({
       url: 'http://www.mei.com/appapi/home/eventForH5?params=%7B%7D&timestamp=1562548371235&summary=c7126ea73c7652fafff1d79ede9f1c60&platform_code=H5'
     }).then(res => {
     //    console.log(res.data.lists[0].events)
       this.list = res.data.lists[0].events
       this.dalist = res.data.lists[1].events
     })
-
+  },
+  methods: {
+    detail (id) {
+      this.$router.push(`/productlist/${id}`)
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .swiper {
@@ -130,7 +134,7 @@ export default {
                 font-size:.28rem;
                 color:#fff;
             }
-           
+
         }
   img {
     width: 100%;
@@ -150,7 +154,7 @@ export default {
         .title{
             height: 0.45rem;
             width: 80%;
-            padding: 0.24rem 0.2rem 0.2rem; 
+            padding: 0.24rem 0.2rem 0.2rem;
             line-height: 0.45rem;
             h5{
                 font-size: 0.34rem;
@@ -159,7 +163,7 @@ export default {
                 display: inline;
                 font-size: 0.22rem;
                 color:#666;
-            } 
+            }
         }
         .commod{
             // padding: 0 0.20rem 0.32rem;

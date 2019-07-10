@@ -9,6 +9,7 @@ import Makeup from '@/views/Makeup'
 import Household from '@/views/Household'
 import Baby from '@/views/Baby'
 import Comesoon from '@/views/Comesoon'
+import Productlist from '@/views/Productlist'
 
 Vue.use(Router)
 
@@ -19,6 +20,10 @@ export default new Router({
     {
       path: '/recomment',
       component: Recomment
+    },
+    {
+      path: '/productlist/:id',
+      component: Productlist
     },
     {
       path: '/overseas',

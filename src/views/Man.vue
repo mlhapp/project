@@ -15,7 +15,7 @@
       infinite-scroll-distance="0"
       infinite-scroll-immediate-check="false"
     >
-      <div v-for="da in datalist" :key="da.eventId" id="myload">
+      <div v-for="da in datalist" :key="da.eventId" id="myload" @click ="detail(da.eventId)">
         <img :src="da.imageUrl" />
         <div class="info">
           <p>{{da.englishName}}</p>
@@ -68,6 +68,9 @@ export default {
         this.datalist = [...this.datalist, ...item.data.eventList]
         this.loading = false
       })
+    },
+    detail (id) {
+      this.$router.push(`/productlist/${id}`)
     }
   }
 }

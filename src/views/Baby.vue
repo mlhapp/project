@@ -22,7 +22,7 @@
       infinite-scroll-distance="0"
       infinite-scroll-immediate-check="false"
     >
-      <div v-for="da in datalist" :key="da.eventId" id="myload">
+      <div v-for="da in datalist" :key="da.eventId" id="myload" @click="detail(da.eventId)">
         <img :src="da.imageUrl" />
         <div class="info">
           <p>{{da.englishName}}</p>
@@ -34,67 +34,70 @@
   </div>
 </template>
 <script>
-import Vue from "vue";
-import axios from "axios";
-import Swiper from "swiper";
-import swiper from "@/components/Swiper";
-import newbar from "@/components/Newbar";
+import Vue from 'vue'
+import axios from 'axios'
+import Swiper from 'swiper'
+import swiper from '@/components/Swiper'
+import newbar from '@/components/Newbar'
 export default {
   components: {
     swiper,
     newbar
   },
-  data() {
+  data () {
     return {
       datalist: [],
       loading: false,
       current: 1,
       dalist: [],
       newlist: []
-    };
+    }
   },
-  mounted() {
+  mounted () {
     axios
       .get(
-        "http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000005&platform_code=PLATEFORM_H5"
+        'http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000005&platform_code=PLATEFORM_H5'
       )
       .then(res => {
-        this.dalist = res.data.banners;
-      });
+        this.dalist = res.data.banners
+      })
 
     axios({
       url:
-        "http://www.mei.com/appapi/cms/cmsDetail/v3?silo=2013000100000000005&ids=2120000100000000146&timestamp=1562635089344&summary=53192309ead51d24554b8d3aee49306a&platform_code=H5"
+        'http://www.mei.com/appapi/cms/cmsDetail/v3?silo=2013000100000000005&ids=2120000100000000146&timestamp=1562635089344&summary=53192309ead51d24554b8d3aee49306a&platform_code=H5'
     }).then(res => {
-      console.log(res.data.resultList[0].data);
-      this.newlist = res.data.resultList[0].data;
-    });
+      console.log(res.data.resultList[0].data)
+      this.newlist = res.data.resultList[0].data
+    })
 
     axios({
       url:
-        "http://www.mei.com/appapi/silo/eventForH5?categoryId=kids&pageIndex=1&timestamp=1562631582388&summary=564f8a23e31304eba758f05dda3a5878&platform_code=H5"
+        'http://www.mei.com/appapi/silo/eventForH5?categoryId=kids&pageIndex=1&timestamp=1562631582388&summary=564f8a23e31304eba758f05dda3a5878&platform_code=H5'
     }).then(item => {
-      console.log(item.data.eventList);
-      this.datalist = item.data.eventList;
-      this.totalPages = item.data.totalPages;
-    });
+      console.log(item.data.eventList)
+      this.datalist = item.data.eventList
+      this.totalPages = item.data.totalPages
+    })
   },
   methods: {
-    loadMore() {
-      this.loading = true;
-      this.current++;
+    loadMore () {
+      this.loading = true
+      this.current++
       if (this.current === this.totalPages) {
-        return;
+        return
       }
       axios({
         url: `http://www.mei.com/appapi/silo/eventForH5?categoryId=kids&pageIndex=${this.current}&timestamp=1562631582388&summary=564f8a23e31304eba758f05dda3a5878&platform_code=H5`
       }).then(item => {
-        this.datalist = [...this.datalist, ...item.data.eventList];
-        this.loading = false;
-      });
+        this.datalist = [...this.datalist, ...item.data.eventList]
+        this.loading = false
+      })
+    },
+    detail (id) {
+      this.$router.push(`/productlist/${id}`)
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .swiper {
@@ -140,7 +143,7 @@ export default {
     img {
       width:1.236rem;
       display: block;
-      
+
     }
   }
 }

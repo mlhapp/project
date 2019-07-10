@@ -20,7 +20,7 @@
       infinite-scroll-distance="0"
       infinite-scroll-immediate-check="false"
     >
-      <div v-for="da in datalist" :key="da.eventId" id="myload">
+      <div v-for="da in datalist" :key="da.eventId" id="myload" @click="detail(da.eventId)">
         <img :src="da.imageUrl" />
         <div class="info">
           <p>{{da.englishName}}</p>
@@ -32,69 +32,73 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+import axios from 'axios'
 import newbar from '@/components/Newbar'
 export default {
-  data() {
+  data () {
     return {
       data: [],
       datalist: [],
       loading: false,
       current: 1,
       newlist: []
-    };
+    }
   },
-  mounted() {
+  mounted () {
     axios({
       url:
-        "http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000003&platform_code=PLATEFORM_H5"
+        'http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000003&platform_code=PLATEFORM_H5'
     }).then(res => {
       // console.log(res.data.banners[0]);
-      this.data.push(res.data.banners[0]);
-    });
+      this.data.push(res.data.banners[0])
+    })
 
     axios({
       url:
-        "http://www.mei.com/appapi/silo/eventForH5?categoryId=cosmetics&pageIndex=1&timestamp=1562398651366&summary=fb275853678d0e0f5fc1447aaeaf4a7c&platform_code=H5"
+        'http://www.mei.com/appapi/silo/eventForH5?categoryId=cosmetics&pageIndex=1&timestamp=1562398651366&summary=fb275853678d0e0f5fc1447aaeaf4a7c&platform_code=H5'
     }).then(item => {
       // console.log(item.data.eventList);
-      this.datalist = item.data.eventList;
-      this.totalPages = item.data.totalPages;
-    });
+      this.datalist = item.data.eventList
+      this.totalPages = item.data.totalPages
+    })
     axios({
       url:
-        "http://www.mei.com/appapi/cms/cmsDetail/v3?silo=2013000100000000003&ids=2042000100000000431&timestamp=1562633823135&summary=cfa106d52a1936a20287ce8aaf7e9d06&platform_code=H5"
+        'http://www.mei.com/appapi/cms/cmsDetail/v3?silo=2013000100000000003&ids=2042000100000000431&timestamp=1562633823135&summary=cfa106d52a1936a20287ce8aaf7e9d06&platform_code=H5'
     }).then(res => {
-      this.newlist = res.data.resultList[0].data;
+      this.newlist = res.data.resultList[0].data
       // console.log(this.newlist);
-    });
+    })
   },
   methods: {
-    loadMore() {
-      this.loading = true;
-      this.current++;
+    loadMore () {
+      this.loading = true
+      this.current++
       if (this.current === this.totalPages) {
-        return;
+        return
       }
       axios({
         url: `http://www.mei.com/appapi/silo/eventForH5?categoryId=cosmetics&pageIndex=${this.current}&timestamp=1562398651366&summary=fb275853678d0e0f5fc1447aaeaf4a7c&platform_code=H5`
       }).then(item => {
-        this.datalist = [...this.datalist, ...item.data.eventList];
-        this.loading = false;
-      });
+        this.datalist = [...this.datalist, ...item.data.eventList]
+        this.loading = false
+      })
+    },
+    detail (id) {
+      this.$router.push(`/productlist/${id}`)
     }
   },
-  components:{
+  components: {
     newbar
   }
-};
+
+}
 </script>
 <style lang="scss" scoped>
 .banner {
   width: 100%;
   height: 9rem;
   position: relative;
- 
+
   section {
     position: absolute;
     left: 0;
@@ -132,7 +136,7 @@ export default {
     img {
       width:1.236rem;
       display: block;
-      
+
     }
   }
 }

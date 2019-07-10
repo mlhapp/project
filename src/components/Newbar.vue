@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-    
+
 }
 </script>
 
@@ -15,4 +15,3 @@ div{
     height: 1.8rem;
 }
 </style>
-

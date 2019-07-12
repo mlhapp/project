@@ -1,5 +1,5 @@
 <template>
-   <section id="loadbox"
+   <section id="loadbox" ref="load"
         v-infinite-scroll="loadMore"
              infinite-scroll-disabled="loading"
              infinite-scroll-distance="0"
@@ -18,11 +18,14 @@
       </li>
     </ul>
    </section>
+   <!-- <div>
+       listmore
+   </div> -->
 </template>
 <script>
 import axios from 'axios'
 export default {
-  props: ['id'],
+  props: ['id','id1','more'],
   data () {
     return {
       datalist: [],
@@ -31,14 +34,25 @@ export default {
     }
   },
   mounted () {
+
     axios
-      .get(
-        `http://www.mei.com/appapi/event/product/v3?pageIndex=1&categoryId=${this.$route.params.id}&key=&sort=&timestamp=1562719371783&summary=5c55e0f68413a24a83e0fb0eacb498c1&platform_code=H5`
+.get(
+        `http://www.mei.com/appapi/secondcategory/search/v3?brandNames=&chineseCodes=&pageIndex=1&categoryId=${this.$route.params.id}&siloId=${this.$route.params.id1}&thirdCategories=${this.$route.params.more}&key=&sort=&timestamp=1562893563425&summary=7a6286e1332c3ddd8e6233e1d797fa8d&platform_code=H5`
       )
       .then(res => {
+          if(res.data.products.length === 0 ){
+              this.$refs.load.innerHTML="没有更多数据"
+              this.$refs.load.style.width='100%';
+              this.$refs.load.style.textAlign ="center"
+              this.$refs.load.style.marginTop='4rem'
+              this.$refs.load.style.color="#aaa"
+              this.$refs.load.style.fontSize=".32rem"
+          }
         this.datalist = res.data.products
         this.totalPages = res.data.totalPages
+        // console.log(res.data)
       })
+    // console.log(this.$route.params.id,this.$route.params.more)
   },
   methods: {
     loadMore () {
@@ -48,11 +62,11 @@ export default {
       this.loading = true
       this.current++
       axios({
-        url: `http://www.mei.com/appapi/event/product/v3?pageIndex=${this.current}&categoryId=${this.$route.params.id}&key=&sort=&timestamp=1562723464455&summary=5ad37ff2f806a6ef695506ea86583ac2&platform_code=H5`
+        url: `http://www.mei.com/appapi/secondcategory/search/v3?brandNames=&chineseCodes=&pageIndex=${this.current}&categoryId=${this.$route.params.id}&siloId=${this.$route.params.id1}&thirdCategories=${this.$route.params.more}&key=&sort=&timestamp=1562893563425&summary=7a6286e1332c3ddd8e6233e1d797fa8d&platform_code=H5`
       }).then(item => {
         this.datalist = [...this.datalist, ...item.data.products]
         this.loading = false
-        console.log(item.data.products)
+        // console.log(item.data.products)
       })
     }
   }

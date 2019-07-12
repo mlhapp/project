@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="banner">
-      <img :src="data[0].main_image" />
+    <div class="banner" @click="jump">
+      <img :src="data.main_image" />
       <section>
-        <h3>{{data[0].main_title}}</h3>
-        <p>{{data[0].sub_title}}</p>
-        <p>{{data[0].description}}</p>
+        <h3>{{data.main_title}}</h3>
+        <p>{{data.sub_title}}</p>
+        <p>{{data.description}}</p>
       </section>
     </div>
     <newbar class="new">
-      <li v-for="data in newlist" :key="data.categoryTwoId">
+      <li v-for="data in newlist" :key="data.categoryTwoId" @click="url(data.categoryOneId,data.siloId,data.categroyTwoName)">
         <img :src="data.categoryImgStr" />
       </li>
     </newbar>
@@ -37,7 +37,7 @@ import newbar from '@/components/Newbar'
 export default {
   data () {
     return {
-      data: [],
+      data:null,
       datalist: [],
       loading: false,
       current: 1,
@@ -50,7 +50,8 @@ export default {
         'http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000003&platform_code=PLATEFORM_H5'
     }).then(res => {
       // console.log(res.data.banners[0]);
-      this.data.push(res.data.banners[0])
+      this.data = res.data.banners[0]
+      // console.log(this.data.link_url)
     })
 
     axios({
@@ -71,11 +72,11 @@ export default {
   },
   methods: {
     loadMore () {
-      this.loading = true
-      this.current++
       if (this.current === this.totalPages) {
         return
       }
+      this.loading = true
+      this.current++
       axios({
         url: `http://www.mei.com/appapi/silo/eventForH5?categoryId=cosmetics&pageIndex=${this.current}&timestamp=1562398651366&summary=fb275853678d0e0f5fc1447aaeaf4a7c&platform_code=H5`
       }).then(item => {
@@ -85,6 +86,12 @@ export default {
     },
     detail (id) {
       this.$router.push(`/productlist/${id}`)
+    },
+    jump(){
+       this.$router.push(`/list`)
+    },
+    url(id,id1,more){
+      this.$router.push(`/listmore/${id}/${id1}/${more}`)
     }
   },
   components: {

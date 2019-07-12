@@ -43,7 +43,7 @@
                 </div>
             </div>
             <h3>热卖品牌</h3>
-            <div v-for="dat in dalist" :key="dat.eventId" class="myload">
+            <div v-for="dat in dalist" :key="dat.eventId" class="myload" @click="detail(dat.eventId)">
                 <img :src="dat.imageUrl"/>
                 <div class="info">
                     <p>{{dat.englishName}}</p>
@@ -56,7 +56,6 @@
 </template>
 
 <script>
-import Swiper from 'swiper'
 import swiper from '@/components/Swiper'
 import axios from 'axios'
 import Vue from 'vue'
@@ -88,7 +87,7 @@ export default {
         'http://www.mei.com/appapi/ninenew/operational/v1?credential='
       )
       .then(res => {
-        console.log(res.data.show2[0].products)
+        // console.log(res.data.show2[0].products)
         this.hotlist = res.data.show2[0].products
         this.shoulist = res.data.show2[1].products
       })

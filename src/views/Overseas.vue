@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="banner">
+        <div class="banner" @click="banner(data.link_url.slice(-19))">
                 <img :src="data.main_image"/>
                 <section>
                     <h3>{{data.main_title}}</h3>
@@ -41,24 +41,24 @@ export default {
       url: 'http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000011&platform_code=PLATEFORM_H5'
     }).then(res => {
       this.data = res.data.banners[0]
-      console.log(this.data.main_image)
+      // console.log(this.data.main_image)
     })
 
     axios({
       url: 'http://www.mei.com/appapi/silo/eventForH5?categoryId=crossborder&pageIndex=1&timestamp=1562382790973&summary=9a2af66bd1b0487cd1678f9c452d7439&platform_code=H5'
     }).then(item => {
-      console.log(item.data.eventList)
+      // console.log(item.data.eventList)
       this.datalist = item.data.eventList
       this.totalPages = item.data.totalPages
     })
   },
   methods: {
     loadMore () {
-      this.loading = true
-      this.current++
       if (this.current === this.totalPages) {
         return
       }
+      this.loading = true
+      this.current++
       axios({
         url: `http://www.mei.com/appapi/silo/eventForH5?categoryId=crossborder&pageIndex=${this.current}&timestamp=1562382790973&summary=9a2af66bd1b0487cd1678f9c452d7439&platform_code=H5`
       }).then(item => {
@@ -68,6 +68,9 @@ export default {
     },
     detail (id) {
       this.$router.push(`/productlist/${id}`)
+    },
+    banner(id){
+       this.$router.push(`/brand/${id}`)
     }
   }
 }

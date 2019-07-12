@@ -1,14 +1,14 @@
 <template>
-   <section id="loadbox"
+  <section id="loadbox"
         v-infinite-scroll="loadMore"
              infinite-scroll-disabled="loading"
              infinite-scroll-distance="0"
              infinite-scroll-immediate-check="false" >
-    <ul>
+    <ul class="post">
       <li v-for="data in datalist" :key="data.productId">
-        <img :src="data.imageUrl" alt />
+        <img :src="data.fileUrl" alt />
         <div>
-          <p>{{data.tagListDto.tag}}</p>
+          <!-- <p>{{data.tagListDto.tag}}</p> -->
           <p class="p2">{{data.brandName}}</p>
           <p class="p3">{{data.productName}}</p>
           <span class="s1">￥{{data.price}}</span>
@@ -17,51 +17,58 @@
         </div>
       </li>
     </ul>
-   </section>
+ </section>
 </template>
 <script>
-import axios from 'axios'
+import axios from "axios";
+import bus from "@/bus";
 export default {
-  props: ['id'],
-  data () {
+  props: ["id"],
+  data() {
     return {
       datalist: [],
+      routeId: null,
       loading: false,
-      current: 1
-    }
+      current: 1,
+      hasNext:true
+    };
   },
-  mounted () {
-    axios
-      .get(
-        `http://www.mei.com/appapi/event/product/v3?pageIndex=1&categoryId=${this.$route.params.id}&key=&sort=&timestamp=1562719371783&summary=5c55e0f68413a24a83e0fb0eacb498c1&platform_code=H5`
-      )
-      .then(res => {
-        this.datalist = res.data.products
-        this.totalPages = res.data.totalPages
-      })
+  beforeMount() {
+    bus.$on("tranrouter", ({ router }) => {
+      this.routeId = router;
+      //  console.log('接收',this.routeId)
+      axios
+        .get(
+          ` http://www.mei.com/appapi/brand/product/secCategoryProduct/v3?logoId=${this.routeId}&pageIndex=1&categoryId=${this.$route.params.id}`
+        )
+        .then(res => {
+          this.datalist = res.data.body.categoryProducts;
+        //   console.log(this.datalist);
+        });
+    });
   },
   methods: {
     loadMore () {
-      if (this.current === this.totalPages) {
+      if (this.hasNext === false) {
         return
       }
       this.loading = true
       this.current++
       axios({
-        url: `http://www.mei.com/appapi/event/product/v3?pageIndex=${this.current}&categoryId=${this.$route.params.id}&key=&sort=&timestamp=1562723464455&summary=5ad37ff2f806a6ef695506ea86583ac2&platform_code=H5`
+        url: `http://www.mei.com/appapi/brand/product/secCategoryProduct/v3?logoId=${this.routeId}&pageIndex=${this.current}&categoryId=${this.$route.params.id}`
       }).then(item => {
-        this.datalist = [...this.datalist, ...item.data.products]
+        this.datalist = [...this.datalist, ... item.data.body.categoryProducts]
         this.loading = false
-        console.log(item.data.products)
+        this.hasNext = item.data.body.categoryProducts.hasNext
+        // console.log(item.data)
       })
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 div {
-  height: auto;
-  ul {
+   .post {
     list-style: none;
     display: flex;
     flex-wrap: wrap;

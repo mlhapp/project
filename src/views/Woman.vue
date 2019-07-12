@@ -1,11 +1,11 @@
 <template>
     <div>
-        <div class="banner">
-                <img :src="data[0].main_image"/>
+        <div class="banner" @click="banner(data.link_url.slice(-19))">
+                <img :src="data.main_image"/>
                 <section>
-                    <h3>{{data[0].main_title}}</h3>
-                    <p>{{data[0].sub_title}}</p>
-                    <p>{{data[0].description}}</p>
+                    <h3>{{data.main_title}}</h3>
+                    <p>{{data.sub_title}}</p>
+                    <p>{{data.description}}</p>
                 </section>
         </div>
         <section id="loadbox"
@@ -29,7 +29,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      data: [],
+      data:null,
       datalist: [],
       loading: false,
       current: 1
@@ -39,8 +39,8 @@ export default {
     axios({
       url: 'http://www.mei.com/appapi/home/mktBannerApp/v3?silo_id=2013000100000000001&platform_code=PLATEFORM_H5'
     }).then(res => {
-      console.log(res.data.banners[0])
-      this.data.push(res.data.banners[0])
+      this.data = res.data.banners[0]
+      // console.log(this.data.link_url.slice(-19))
     })
 
     axios({
@@ -53,11 +53,11 @@ export default {
   },
   methods: {
     loadMore () {
-      this.loading = true
-      this.current++
       if (this.current === this.totalPages) {
         return
       }
+      this.loading = true
+      this.current++
       axios({
         url: `http://www.mei.com/appapi/silo/eventForH5?categoryId=women&pageIndex=${this.current}&timestamp=1562396405912&summary=14d19ead9fbb7ea783bb9275c587fd65&platform_code=H5`
       }).then(item => {
@@ -67,6 +67,9 @@ export default {
     },
     detail (id) {
       this.$router.push(`/productlist/${id}`)
+    },
+    banner(id){
+       this.$router.push(`/brand/${id}`)
     }
   }
 }

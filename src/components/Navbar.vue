@@ -86,4 +86,5 @@ div {
   .active::after {
       opacity: 1;
       transform: scale(1);
-    }</style>
+    }
+    </style>

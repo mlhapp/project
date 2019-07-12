@@ -42,7 +42,7 @@ export default {
     axios.get('http://www.mei.com/appapi/search/searchDefault/v3').then(res => {
       this.search = res.data.words
     })
-    console.log(this.$refs.myinput)
+    // console.log(this.$refs.myinput)
     window.onscroll = this.appscroll
   },
   methods: {

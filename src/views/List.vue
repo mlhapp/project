@@ -18,11 +18,14 @@
       </li>
     </ul>
    </section>
+   <!-- <div>
+       list
+   </div> -->
 </template>
 <script>
 import axios from 'axios'
 export default {
-  props: ['id'],
+//   props: ['id'],
   data () {
     return {
       datalist: [],
@@ -33,11 +36,12 @@ export default {
   mounted () {
     axios
       .get(
-        `http://www.mei.com/appapi/event/product/v3?pageIndex=1&categoryId=${this.$route.params.id}&key=&sort=&timestamp=1562719371783&summary=5c55e0f68413a24a83e0fb0eacb498c1&platform_code=H5`
+        `http://www.mei.com/appapi/search/searchKey/v3?pageIndex=1&q=%E4%B8%AA%E6%8A%A4%E7%BE%8E%E5%A6%86+%E5%8C%96%E5%A6%86%E6%B0%B4&sort=&key=&spm=a2o1p.9077418.0.0.4bf24cabx3ORem&searchKeyWord=%E4%B8%AA%E6%8A%A4%E7%BE%8E%E5%A6%86+%E5%8C%96%E5%A6%86%E6%B0%B4`
       )
       .then(res => {
         this.datalist = res.data.products
         this.totalPages = res.data.totalPages
+        // console.log(res.data)
       })
   },
   methods: {
@@ -48,11 +52,11 @@ export default {
       this.loading = true
       this.current++
       axios({
-        url: `http://www.mei.com/appapi/event/product/v3?pageIndex=${this.current}&categoryId=${this.$route.params.id}&key=&sort=&timestamp=1562723464455&summary=5ad37ff2f806a6ef695506ea86583ac2&platform_code=H5`
+        url: `http://www.mei.com/appapi/search/searchKey/v3?pageIndex=${this.current}&q=%E4%B8%AA%E6%8A%A4%E7%BE%8E%E5%A6%86+%E5%8C%96%E5%A6%86%E6%B0%B4&sort=&key=&spm=a2o1p.9077418.0.0.4bf24cabx3ORem&searchKeyWord=%E4%B8%AA%E6%8A%A4%E7%BE%8E%E5%A6%86+%E5%8C%96%E5%A6%86%E6%B0%B4`
       }).then(item => {
         this.datalist = [...this.datalist, ...item.data.products]
         this.loading = false
-        console.log(item.data.products)
+        // console.log(item.data.products)
       })
     }
   }

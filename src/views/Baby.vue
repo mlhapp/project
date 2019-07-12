@@ -1,7 +1,7 @@
 <template>
   <div>
     <swiper :key="dalist.length" class="swiper">
-      <li v-for="data in dalist" :key="data.id" class="swiper-slide">
+      <li v-for="data in dalist" :key="data.id" class="swiper-slide"  @click="banner(data.link_url.slice(-19))">
         <img :src="data.main_image" />
         <div class="swiperchil">
           <h3>{{data.main_title}}1111</h3>
@@ -11,8 +11,8 @@
       </li>
     </swiper>
     <newbar class="new">
-      <li v-for="data in newlist" :key="data.categoryTwoId">
-        <img :src="data.categoryImgStr" />
+      <li v-for="data in newlist" :key="data.categoryTwoId" @click="url(data.categoryOneId,data.siloId,data.categroyTwoName)">
+        <img :src="data.categoryImgStr" />                                                         
       </li>
     </newbar>
     <section
@@ -66,7 +66,7 @@ export default {
       url:
         'http://www.mei.com/appapi/cms/cmsDetail/v3?silo=2013000100000000005&ids=2120000100000000146&timestamp=1562635089344&summary=53192309ead51d24554b8d3aee49306a&platform_code=H5'
     }).then(res => {
-      console.log(res.data.resultList[0].data)
+      // console.log(res.data.resultList[0].data)
       this.newlist = res.data.resultList[0].data
     })
 
@@ -74,18 +74,18 @@ export default {
       url:
         'http://www.mei.com/appapi/silo/eventForH5?categoryId=kids&pageIndex=1&timestamp=1562631582388&summary=564f8a23e31304eba758f05dda3a5878&platform_code=H5'
     }).then(item => {
-      console.log(item.data.eventList)
+      // console.log(item.data.eventList)
       this.datalist = item.data.eventList
       this.totalPages = item.data.totalPages
     })
   },
   methods: {
     loadMore () {
-      this.loading = true
-      this.current++
       if (this.current === this.totalPages) {
         return
       }
+      this.loading = true
+      this.current++
       axios({
         url: `http://www.mei.com/appapi/silo/eventForH5?categoryId=kids&pageIndex=${this.current}&timestamp=1562631582388&summary=564f8a23e31304eba758f05dda3a5878&platform_code=H5`
       }).then(item => {
@@ -95,8 +95,17 @@ export default {
     },
     detail (id) {
       this.$router.push(`/productlist/${id}`)
+    },
+    banner(id){
+       this.$router.push(`/brand/${id}`)
+    },
+     url(id,id1,more){
+     if(more === '凉鞋/拖鞋'){
+       more= '%E5%87%89%E9%9E%8B%2F%E6%8B%96%E9%9E%8B'
+     }
+      this.$router.push(`/listmore/${id}/${id1}/${more}`)
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

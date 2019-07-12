@@ -4,7 +4,7 @@
     <div class="title">
       <h4>
         距离开场还剩
-        <span>10</span>小时
+        <span>{{date}}</span>小时
       </h4>
       <p>{{data.tips}}</p>
     </div>
@@ -27,7 +27,8 @@ export default {
   data () {
     return {
       datalist: [],
-      data: []
+      data: [],
+      date:0
     }
   },
   mounted () {
@@ -35,9 +36,13 @@ export default {
       url:
         'http://www.mei.com/appapi/upcoming/index/v3?platform_code=H5&timestamp=1562637782913&summary=f7a42d4f0a62fa42ad12ae198f8a2d4d'
     }).then(res => {
-      console.log(res.data)
+      // console.log(res.data)
       this.datalist = res.data.lists[0].events
       this.data = res.data
+      var time = parseInt(res.data.lists[0].launchTime)
+      var time1 = new Date().getTime()/1000
+      var T = time-time1
+      this.date = Math.floor(T/60/60)
     })
     if ((document.documentElement.scrollTop = 0)) {
       document.documentElement.scrollTop = 1

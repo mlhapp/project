@@ -2,16 +2,16 @@
   <div>
     <headerbar ref="myhead" id="head" v-show="$store.state.isFootbarShow">
       <ul>
-        <li>登录</li>
+        <li @click="login">登录</li>
         <li class="search">
           <a ref="myinput">
             <strong>
               <span ref="myglass" class="iconfont icon-fangdajing"></span>
-              <input  type="text" :value="search"  ref="myword"/>
+              <input  type="text" :value="search"  ref="myword" @click='jump'/>
             </strong>
           </a>
         </li>
-        <li>
+        <li @click="shopcar">
           <span class="iconfont">&#xe6e9;</span>
         </li>
       </ul>
@@ -65,6 +65,15 @@ export default {
         this.$refs.myglass.style.color = ''
         this.$refs.myword.style.color = ''
       }
+    },
+    jump(){
+      this.$router.push('/search')
+    },
+    login(){
+      this.$router.push('/login')
+    },
+     shopcar(){
+      this.$router.push('/shopcar')
     }
   }
 }
@@ -81,15 +90,15 @@ div {
   -moz-osx-font-smoothing: grayscale;
   font-size: 0.32rem;
 }
-// ul {
-//   list-style: none;
-// }
-// p{
-//   font-size:.12rem;
-// }
-// a{
-//   text-decoration: none;
-// }
+ul {
+  list-style: none;
+}
+p{
+  font-size:.12rem;
+}
+a{
+  text-decoration: none;
+}
 #head {
   ul {
     list-style: none;

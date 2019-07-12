@@ -5,7 +5,7 @@
              infinite-scroll-distance="0"
              infinite-scroll-immediate-check="false" >
     <ul class="post">
-      <li v-for="data in datalist" :key="data.productId">
+      <li v-for="data in datalist" :key="data.productId" @click="jump(data.productId)">
         <img :src="data.fileUrl" alt />
         <div>
           <!-- <p>{{data.tagListDto.tag}}</p> -->
@@ -62,6 +62,9 @@ export default {
         this.hasNext = item.data.body.categoryProducts.hasNext
         // console.log(item.data)
       })
+    },
+     jump(id) {
+      this.$router.push(`/productdetail/${id}`)
     }
   }
 }

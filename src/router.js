@@ -9,6 +9,10 @@ import Makeup from '@/views/Makeup'
 import Household from '@/views/Household'
 import Baby from '@/views/Baby'
 import Comesoon from '@/views/Comesoon'
+import Search from '@/views/Search'
+import Login from '@/views/Login'
+import Shopcar from '@/views/Shopcar'
+
 
 import Productlist from '@/views/Productlist'
 import Brand from '@/views/Brand'
@@ -37,6 +41,7 @@ import hotmeizhuang from '@/views/hotcomlist/hotmeizhuang'
 import hotneiyi from '@/views/hotcomlist/hotneiyi'
 import hotshipin from '@/views/hotcomlist/hotshipin'
 import Productdetail from '@/views/Productdetail'
+
 
 Vue.use(Router)
 
@@ -187,6 +192,18 @@ export default new Router({
     {
       path: '/productdetail/:id',
       component: Productdetail
+    },
+    {
+      path:'/search',
+      component: Search
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/shopcar',
+      component: Shopcar
     },
     {
       path: '/',

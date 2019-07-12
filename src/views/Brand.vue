@@ -10,7 +10,7 @@
     <div v-show="isHad" class="SS">
       <h2>精选上新</h2>
       <brandswiper class="swiper newswiper" perview="2.5" myclass="newswiper" :key="newlist.length">
-        <div class="swiper-slide swiper-a" v-for="data in newlist" :key="data.productId">
+        <div class="swiper-slide swiper-a" v-for="data in newlist" :key="data.productId" @click="jump1(data.productId)">
           <img :src="data.fileUrl" class="swiper-img" />
           <div class="mask1"></div>
           <div class="price">
@@ -23,7 +23,7 @@
     <div v-show="isHad2" class="SS">
       <h2>人气热销</h2>
       <brandswiper class="swiper hotswiper" perview="2.5" myclass="hotswiper" :key="hotlist.length">
-        <div class="swiper-slide swiper-a" v-for="data in hotlist" :key="data.productId">
+        <div class="swiper-slide swiper-a" v-for="data in hotlist" :key="data.productId" @click="jump2(data.productId)">
           <img :src="data.fileUrl" class="swiper-img" />
           <div class="mask1"></div>
           <div class="price">
@@ -145,6 +145,12 @@ export default {
       this.$router.push(`/brand/${this.routerId}/categories/${id}`)
       bus.$emit('tranrouter', { router: this.routerId })
       // console.log("发送", this.routerId);
+    },
+     jump1(id) {
+      this.$router.push(`/productdetail/${id}`)
+    },
+     jump2(id) {
+      this.$router.push(`/productdetail/${id}`)
     }
   }
 }

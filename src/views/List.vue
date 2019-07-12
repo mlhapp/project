@@ -24,6 +24,7 @@
 </template>
 <script>
 import axios from 'axios'
+import probar from '@/components/Probar'
 export default {
 //   props: ['id'],
   data () {
@@ -32,6 +33,16 @@ export default {
       loading: false,
       current: 1
     }
+  },
+  beforeMount () {
+    // bus.$emit('maizuo',false)
+    this.$store.commit('delfootTabbar', false)
+  },
+  beforeDestroy () {
+    this.$store.commit('showfootTabbar', true)
+  },
+  components:{
+    probar
   },
   mounted () {
     axios

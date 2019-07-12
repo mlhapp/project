@@ -12,7 +12,7 @@
     </swiper>
     <newbar class="new">
       <li v-for="data in newlist" :key="data.categoryTwoId" @click="url(data.categoryOneId,data.siloId,data.categroyTwoName)">
-        <img :src="data.categoryImgStr" />                                                         
+        <img :src="data.categoryImgStr" />
       </li>
     </newbar>
     <section
@@ -34,9 +34,9 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import axios from 'axios'
-import Swiper from 'swiper'
+// import Swiper from 'swiper'
 import swiper from '@/components/Swiper'
 import newbar from '@/components/Newbar'
 export default {
@@ -96,16 +96,16 @@ export default {
     detail (id) {
       this.$router.push(`/productlist/${id}`)
     },
-    banner(id){
-       this.$router.push(`/brand/${id}`)
+    banner (id) {
+      this.$router.push(`/brand/${id}`)
     },
-     url(id,id1,more){
-     if(more === '凉鞋/拖鞋'){
-       more= '%E5%87%89%E9%9E%8B%2F%E6%8B%96%E9%9E%8B'
-     }
+    url (id, id1, more) {
+      if (more === '凉鞋/拖鞋') {
+        more = '%E5%87%89%E9%9E%8B%2F%E6%8B%96%E9%9E%8B'
+      }
       this.$router.push(`/listmore/${id}/${id1}/${more}`)
     }
-  },
+  }
 }
 </script>
 <style lang="scss" scoped>

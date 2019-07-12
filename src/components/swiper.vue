@@ -9,22 +9,22 @@
 </template>
 
 <script>
-import Swiper from "swiper";
-import "swiper/dist/css/swiper.min.css";
+import Swiper from 'swiper'
+import 'swiper/dist/css/swiper.min.css'
 export default {
-  mounted() {
-    new Swiper(".swiper-container", {
+  mounted () {
+    new Swiper('.swiper-container', {
       loop: true,
       autoplay: {
         delay: 2000
       },
       // 如果需要分页器
       pagination: {
-        el: ".swiper-pagination"
+        el: '.swiper-pagination'
       }
-    });
+    })
   }
-};
+}
 </script>
 <style lang="scss">
 #recomment-swiper-pagination {
@@ -48,4 +48,3 @@ export default {
   }
 }
 </style>
-

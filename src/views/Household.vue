@@ -85,8 +85,8 @@ export default {
     detail (id) {
       this.$router.push(`/productlist/${id}`)
     },
-    banner(id){
-       this.$router.push(`/brand/${id}`)
+    banner (id) {
+      this.$router.push(`/brand/${id}`)
     }
   },
   components: {

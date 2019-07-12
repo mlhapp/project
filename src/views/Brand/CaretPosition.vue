@@ -20,32 +20,32 @@
  </section>
 </template>
 <script>
-import axios from "axios";
-import bus from "@/bus";
+import axios from 'axios'
+import bus from '@/bus'
 export default {
-  props: ["id"],
-  data() {
+  props: ['id'],
+  data () {
     return {
       datalist: [],
       routeId: null,
       loading: false,
       current: 1,
-      hasNext:true
-    };
+      hasNext: true
+    }
   },
-  beforeMount() {
-    bus.$on("tranrouter", ({ router }) => {
-      this.routeId = router;
+  beforeMount () {
+    bus.$on('tranrouter', ({ router }) => {
+      this.routeId = router
       //  console.log('接收',this.routeId)
       axios
         .get(
           ` http://www.mei.com/appapi/brand/product/secCategoryProduct/v3?logoId=${this.routeId}&pageIndex=1&categoryId=${this.$route.params.id}`
         )
         .then(res => {
-          this.datalist = res.data.body.categoryProducts;
+          this.datalist = res.data.body.categoryProducts
         //   console.log(this.datalist);
-        });
-    });
+        })
+    })
   },
   methods: {
     loadMore () {
@@ -57,14 +57,14 @@ export default {
       axios({
         url: `http://www.mei.com/appapi/brand/product/secCategoryProduct/v3?logoId=${this.routeId}&pageIndex=${this.current}&categoryId=${this.$route.params.id}`
       }).then(item => {
-        this.datalist = [...this.datalist, ... item.data.body.categoryProducts]
+        this.datalist = [...this.datalist, ...item.data.body.categoryProducts]
         this.loading = false
         this.hasNext = item.data.body.categoryProducts.hasNext
         // console.log(item.data)
       })
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 div {

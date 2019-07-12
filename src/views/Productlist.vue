@@ -1,34 +1,52 @@
 <template>
-   <section id="loadbox"
-        v-infinite-scroll="loadMore"
-             infinite-scroll-disabled="loading"
-             infinite-scroll-distance="0"
-             infinite-scroll-immediate-check="false" >
-    <ul>
-      <li v-for="data in datalist" :key="data.productId">
-        <img :src="data.imageUrl" alt />
-        <div>
-          <p>{{data.tagListDto.tag}}</p>
-          <p class="p2">{{data.brandName}}</p>
-          <p class="p3">{{data.productName}}</p>
-          <span class="s1">￥{{data.price}}</span>
-          <span class="s2">￥{{data.marketPrice}}</span>
-          <span class="s3">{{data.discount}}折</span>
-        </div>
-      </li>
-    </ul>
-   </section>
+  <div>
+    <probar>
+      <li class="probar">{{title.eventName}}</li>
+    </probar>
+    <section
+      id="loadbox"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="0"
+      infinite-scroll-immediate-check="false"
+    >
+      <ul>
+        <li v-for="data in datalist" :key="data.productId" @click="jump(data.productId)">
+          <img :src="data.imageUrl" alt />
+          <div>
+            <p>{{data.tagListDto.tag}}</p>
+            <p class="p2">{{data.brandName}}</p>
+            <p class="p3">{{data.productName}}</p>
+            <span class="s1">￥{{data.price}}</span>
+            <span class="s2">￥{{data.marketPrice}}</span>
+            <span class="s3">{{data.discount}}折</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </div>
 </template>
 <script>
 import axios from 'axios'
+import probar from '@/components/Probar'
+// import bus from '@/bus'
+// import { HIDE_TABBAR_MUTATION, SHOW_TABBAR_MUTATION } from '@/type'
 export default {
   props: ['id'],
   data () {
     return {
       datalist: [],
       loading: false,
-      current: 1
+      current: 1,
+      title: null
     }
+  },
+  beforeMount () {
+    // bus.$emit('maizuo',false)
+    this.$store.commit('delfootTabbar', false)
+  },
+  components: {
+    probar
   },
   mounted () {
     axios
@@ -38,7 +56,12 @@ export default {
       .then(res => {
         this.datalist = res.data.products
         this.totalPages = res.data.totalPages
+        this.title = res.data
+        // console.log(this.title)
       })
+  },
+  beforeDestroy () {
+    this.$store.commit('showfootTabbar', true)
   },
   methods: {
     loadMore () {
@@ -54,6 +77,9 @@ export default {
         this.loading = false
         console.log(item.data.products)
       })
+    },
+    jump (id) {
+      this.$router.push(`/productdetail/${id}`)
     }
   }
 }
@@ -61,6 +87,12 @@ export default {
 <style lang="scss" scoped>
 div {
   height: auto;
+  .probar {
+    width: 5.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   ul {
     list-style: none;
     display: flex;
@@ -68,7 +100,7 @@ div {
     li {
       width: 3.3rem;
       position: relative;
-      margin-left:.3rem;
+      margin-left: 0.3rem;
       img {
         width: 100%;
         display: block;

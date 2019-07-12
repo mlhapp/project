@@ -1,11 +1,15 @@
 <template>
+<div>
+  <probar>
+      <li class="probar">{{this.$route.params.more1}}</li>
+    </probar>
    <section id="loadbox" ref="load"
         v-infinite-scroll="loadMore"
              infinite-scroll-disabled="loading"
              infinite-scroll-distance="0"
              infinite-scroll-immediate-check="false" >
     <ul>
-      <li v-for="data in datalist" :key="data.productId">
+      <li v-for="data in datalist" :key="data.productId" @click="jump(data.productId)">
         <img :src="data.imageUrl" alt />
         <div>
           <p>{{data.tagListDto.tag}}</p>
@@ -18,41 +22,56 @@
       </li>
     </ul>
    </section>
+   </div>
    <!-- <div>
        listmore
    </div> -->
 </template>
 <script>
 import axios from 'axios'
+import probar from '@/components/Probar'
 export default {
-  props: ['id','id1','more'],
+  props: ['id', 'id1', 'more', 'more1'],
   data () {
     return {
       datalist: [],
       loading: false,
-      current: 1
+      current: 1,
+      title: null
     }
   },
+  components: {
+    probar
+  },
   mounted () {
-
+    console.log(this.$route.params.more1)
+    console.log(this.$route.params.more)
     axios
-.get(
+      .get(
         `http://www.mei.com/appapi/secondcategory/search/v3?brandNames=&chineseCodes=&pageIndex=1&categoryId=${this.$route.params.id}&siloId=${this.$route.params.id1}&thirdCategories=${this.$route.params.more}&key=&sort=&timestamp=1562893563425&summary=7a6286e1332c3ddd8e6233e1d797fa8d&platform_code=H5`
       )
       .then(res => {
-          if(res.data.products.length === 0 ){
-              this.$refs.load.innerHTML="没有更多数据"
-              this.$refs.load.style.width='100%';
-              this.$refs.load.style.textAlign ="center"
-              this.$refs.load.style.marginTop='4rem'
-              this.$refs.load.style.color="#aaa"
-              this.$refs.load.style.fontSize=".32rem"
-          }
+        if (res.data.products.length === 0) {
+          this.$refs.load.innerHTML = '没有更多数据'
+          this.$refs.load.style.width = '100%'
+          this.$refs.load.style.textAlign = 'center'
+          this.$refs.load.style.marginTop = '4rem'
+          this.$refs.load.style.color = '#aaa'
+          this.$refs.load.style.fontSize = '.32rem'
+        }
         this.datalist = res.data.products
         this.totalPages = res.data.totalPages
-        // console.log(res.data)
+        // this.title =
+        console.log(res.data)
       })
     // console.log(this.$route.params.id,this.$route.params.more)
+  },
+  beforeMount () {
+    // bus.$emit('maizuo',false)
+    this.$store.commit('delfootTabbar', false)
+  },
+  beforeDestroy () {
+    this.$store.commit('showfootTabbar', true)
   },
   methods: {
     loadMore () {
@@ -68,6 +87,9 @@ export default {
         this.loading = false
         // console.log(item.data.products)
       })
+    },
+    jump (id) {
+      this.$router.push(`/productdetail/${id}`)
     }
   }
 }
@@ -75,6 +97,12 @@ export default {
 <style lang="scss" scoped>
 div {
   height: auto;
+  .probar {
+    width: 5.3rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
   ul {
     list-style: none;
     display: flex;

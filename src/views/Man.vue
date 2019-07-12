@@ -31,7 +31,7 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      data:null,
+      data: null,
       datalist: [],
       loading: false,
       current: 1
@@ -72,8 +72,8 @@ export default {
     detail (id) {
       this.$router.push(`/productlist/${id}`)
     },
-    banner(id){
-       this.$router.push(`/brand/${id}`)
+    banner (id) {
+      this.$router.push(`/brand/${id}`)
     }
   }
 }

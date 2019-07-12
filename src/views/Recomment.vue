@@ -1,7 +1,7 @@
 <template>
   <div>
-    <swiper :key="datalist.length" class="swiper">
-      <li v-for="data in datalist" :key="data.id" class="swiper-slide">
+    <swiper :key="datalist.length" class="swiper" >
+      <li v-for="data in datalist" :key="data.id" class="swiper-slide" @click="handliclick(data.id)">
         <img :src="data.main_image" />
             <div class="swiperchil">
             <h3>{{data.main_title}}</h3>
@@ -11,7 +11,7 @@
       </li>
     </swiper>
         <div class="newlist">
-                <aside>
+                <aside @click=" handclick">
                 <div class="title">
                 <h5>每日新品
                     <span>09:00上新</span>
@@ -21,7 +21,7 @@
                     <img :src="data.picUrl">
                 </div>
                 </aside>
-                <aside>
+                <aside @click="handleclick">
                 <div class="title">
                 <h5>清仓特卖
                     <span>周三上新</span>
@@ -58,7 +58,7 @@
 <script>
 import swiper from '@/components/Swiper'
 import axios from 'axios'
-import Vue from 'vue'
+// import Vue from 'vue'
 export default {
   components: {
     swiper
@@ -101,8 +101,24 @@ export default {
     })
   },
   methods: {
+    // detail (id) {
+    //   this.$router.push(`/productlist/${id}`)
+    // }
+    handclick () {
+      this.$router.push('/newcomlist')
+    },
+    handleclick () {
+      this.$router.push('/hotcomlist')
+    },
     detail (id) {
       this.$router.push(`/productlist/${id}`)
+    },
+    handliclick (data) {
+      if (data === '20181111111111') {
+        this.$router.push('/luxury')
+      } else {
+        this.$router.push('/brand/3616200100000000853')
+      }
     }
   }
 }

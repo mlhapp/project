@@ -2,7 +2,7 @@
     <div>
         <p>400 - 664 - 6698</p>
         <ul>
-            <li><a href="" class="first">首页</a></li>
+            <li><a href="http://localhost:8080/recomment" class="first">首页</a></li>
             <li><a href="">客户端</a></li>
             <li><a href="">登录</a></li>
             <li><a href="">注册</a></li>

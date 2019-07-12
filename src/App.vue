@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headerbar ref="myhead" id="head">
+    <headerbar ref="myhead" id="head" v-show="$store.state.isFootbarShow">
       <ul>
         <li>登录</li>
         <li class="search">
@@ -16,9 +16,9 @@
         </li>
       </ul>
     </headerbar>
-    <navbar ref="mynav"></navbar>
+    <navbar ref="mynav" v-show="$store.state.isFootbarShow"></navbar>
     <router-view></router-view>
-    <footerbar></footerbar>
+    <footerbar v-show="$store.state.isFootbarShow"></footerbar>
   </div>
 </template>
 
@@ -30,7 +30,8 @@ import axios from 'axios'
 export default {
   data () {
     return {
-      search: ''
+      search: '',
+      showbar: true
     }
   },
   components: {
@@ -80,6 +81,15 @@ div {
   -moz-osx-font-smoothing: grayscale;
   font-size: 0.32rem;
 }
+// ul {
+//   list-style: none;
+// }
+// p{
+//   font-size:.12rem;
+// }
+// a{
+//   text-decoration: none;
+// }
 #head {
   ul {
     list-style: none;

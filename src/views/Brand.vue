@@ -45,12 +45,12 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import brandswiper from "@/components/BrandSwiper";
-import bus from "@/bus";
+import axios from 'axios'
+import brandswiper from '@/components/BrandSwiper'
+import bus from '@/bus'
 export default {
-  props: ["id"],
-  data() {
+  props: ['id'],
+  data () {
     return {
       data: null,
       newlist: null,
@@ -60,86 +60,94 @@ export default {
       datalist: null,
       prolist: null,
       routerId: null
-    };
+    }
   },
   components: {
     brandswiper
   },
-  mounted() {
-    this.routerId = this.$route.params.id;
-    setTimeout(function() {
-      var cli = document.querySelectorAll(".cli");
+  beforeMount () {
+    // bus.$emit('maizuo',false)
+    this.$store.commit('delfootTabbar', false)
+  },
+
+  mounted () {
+    this.routerId = this.$route.params.id
+    setTimeout(function () {
+      var cli = document.querySelectorAll('.cli')
       cli[0].click()
       // cli[0].
-    }, 1000);
-    setTimeout(function() {
-      var cli = document.querySelectorAll(".cli");
+    }, 1000)
+    setTimeout(function () {
+      var cli = document.querySelectorAll('.cli')
       cli[0].click()
-    }, 1000);
+    }, 1000)
     axios
       .get(
         `http://www.mei.com/appapi/brand/viewCms/v3?logoId=${this.$route.params.id}`
       )
       .then(res => {
-        this.data = res.data.body.brandDetail;
-      });
+        this.data = res.data.body.brandDetail
+      })
     axios
       .get(
         `http://www.mei.com/appapi/brand/product/hotNew/v3?logoId=${this.$route.params.id}`
       )
       .then(res => {
-        this.newlist = res.data.body.newProductTop10;
+        this.newlist = res.data.body.newProductTop10
         if (this.newlist.length === 0) {
-          this.isHad = false;
+          this.isHad = false
         } else {
-          this.isHad = true;
+          this.isHad = true
         }
         // console.log(this.newlist);
-        this.hotlist = res.data.body.hotProductTop10;
+        this.hotlist = res.data.body.hotProductTop10
         if (this.hotlist.length === 0) {
-          this.isHad2 = false;
+          this.isHad2 = false
         } else {
-          this.isHad2 = true;
+          this.isHad2 = true
         }
         // console.log(this.newlist);
-      });
+      })
     axios
       .get(
         `http://www.mei.com/appapi/brand/product/secCategoryProduct/v3?logoId=${this.$route.params.id}&pageIndex=1`
       )
       .then(res => {
         // console.log(res.data.body.categories);
-        this.datalist = res.data.body;
-        this.prolist = res.data.body.categories;
+        this.datalist = res.data.body
+        this.prolist = res.data.body.categories
         // console.log( res.data.body)
-      });
+      })
+  },
+  beforeDestroy () {
+    this.$store.commit('showfootTabbar', true)
   },
   methods: {
-    more() {
-      if (this.$refs.More.innerHTML === "更多") {
-        this.$refs.More.innerHTML = "收起";
-        this.$refs.word.style.overflow = "inherit";
-        this.$refs.More.style.position = "relative";
-        this.$refs.More.style.marginBottom = "-.4rem";
-        this.$refs.word.style.height = "auto";
-        this.$refs.word.style.marginBottom = ".88rem";
+    more () {
+      if (this.$refs.More.innerHTML === '更多') {
+        this.$refs.More.innerHTML = '收起'
+        this.$refs.word.style.overflow = 'inherit'
+        this.$refs.More.style.position = 'relative'
+        this.$refs.More.style.marginBottom = '-.4rem'
+        this.$refs.word.style.height = 'auto'
+        this.$refs.word.style.marginBottom = '.88rem'
       } else {
-        this.$refs.More.innerHTML = "更多";
-        this.$refs.More.style.bottom = 0;
-        this.$refs.word.style.overflow = "hidden";
-        this.$refs.More.style.position = "absolute";
-        this.$refs.More.style.marginBottom = 0;
-        this.$refs.word.style.height = "2.5rem";
-        this.$refs.word.style.marginBottom = 0;
+        this.$refs.More.innerHTML = '更多'
+        this.$refs.More.style.bottom = 0
+        this.$refs.word.style.overflow = 'hidden'
+        this.$refs.More.style.position = 'absolute'
+        this.$refs.More.style.marginBottom = 0
+        this.$refs.word.style.height = '2.5rem'
+        this.$refs.word.style.marginBottom = 0
       }
     },
-    changePro(id) {
-      this.$router.push(`/brand/${this.routerId}/categories/${id}`);
-      bus.$emit("tranrouter", { router: this.routerId });
+    changePro (id) {
+      this.$router.push(`/brand/${this.routerId}/categories/${id}`)
+      bus.$emit('tranrouter', { router: this.routerId })
       // console.log("发送", this.routerId);
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .post {
@@ -244,9 +252,9 @@ p {
   height: 0.87rem;
   line-height: 0.87rem;
   justify-content: space-around;
-  border-bottom:1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   li {
-    width:2.5rem;
+    width: 2.5rem;
     display: inline-block;
     text-align: center;
     height: 0.87rem;
@@ -274,10 +282,10 @@ p {
   // li:nth-of-type(1)::after{
   //    transform: scale(1);
   // }
-  //  li:hover::after{
-  //     opacity: 1;
-  //     transform: scale(1);
-  //     // background: #d88358;
-  //   }
+  li:hover::after {
+    opacity: 1;
+    transform: scale(1);
+    // background: #d88358;
+  }
 }
 </style>

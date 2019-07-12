@@ -9,7 +9,7 @@
       </section>
     </div>
     <newbar class="new">
-      <li v-for="data in newlist" :key="data.categoryTwoId" @click="url(data.categoryOneId,data.siloId,data.categroyTwoName)">
+      <li v-for="data in newlist" :key="data.categoryTwoId" @click="url(data.categoryOneId,data.siloId,data.categroyTwoName,data.categoryOneName)">
         <img :src="data.categoryImgStr" />
       </li>
     </newbar>
@@ -37,7 +37,7 @@ import newbar from '@/components/Newbar'
 export default {
   data () {
     return {
-      data:null,
+      data: null,
       datalist: [],
       loading: false,
       current: 1,
@@ -87,11 +87,11 @@ export default {
     detail (id) {
       this.$router.push(`/productlist/${id}`)
     },
-    jump(){
-       this.$router.push(`/list`)
+    jump () {
+      this.$router.push(`/list`)
     },
-    url(id,id1,more){
-      this.$router.push(`/listmore/${id}/${id1}/${more}`)
+    url (id, id1, more, more1) {
+      this.$router.push(`/listmore/${id}/${id1}/${more}/${more1}`)
     }
   },
   components: {

@@ -28,7 +28,7 @@ export default {
     return {
       datalist: [],
       data: [],
-      date:0
+      date: 0
     }
   },
   mounted () {
@@ -40,13 +40,13 @@ export default {
       this.datalist = res.data.lists[0].events
       this.data = res.data
       var time = parseInt(res.data.lists[0].launchTime)
-      var time1 = new Date().getTime()/1000
-      var T = time-time1
-      this.date = Math.floor(T/60/60)
+      var time1 = new Date().getTime() / 1000
+      var T = time - time1
+      this.date = Math.floor(T / 60 / 60)
     })
-    if ((document.documentElement.scrollTop = 0)) {
-      document.documentElement.scrollTop = 1
-    }
+    // if ((document.documentElement.scrollTop = 0)) {
+    //   document.documentElement.scrollTop = 1
+    // }
   },
   methods: {
     detail (id) {
@@ -68,6 +68,7 @@ export default {
     font-size: 0.4rem;
     span {
       color: red;
+      display: inline
     }
   }
   p {
